@@ -4,3 +4,8 @@
 Hiệu ứng động cho Bơm và đầu vào nước.
 
 Mức nước động cao thấp theo đầu vào Sensor.
+
+Thay đổi các thông số trong ```variables:``` để thay đổi theo ý thích.
+
+![Screenshot 2024-08-08 at 11-07-19 Test – Home Assistant](https://github.com/user-attachments/assets/8052472b-fc83-4aba-a258-3c99b4b58cf1)
+
