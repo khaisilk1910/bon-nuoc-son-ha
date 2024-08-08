@@ -1,0 +1,447 @@
+type: custom:button-card
+variables:
+  main_entity: sensor.bon_nuoc_sinh_hoat_son_ha_ultrasonic_sensor
+  main_name: Công Tơ
+  main_icon: mdi:storage-tank
+  main_icon_width: 350
+  main_icon_color: rgba(255, 255, 0, 1)
+  main_image: /local/images/icon/Bon nuoc SonHa - SVG 2.svg
+  custom_button1: sensor.oc1_bom_nuoc_current
+  custom_button1_icon: mdi:sine-wave
+  custom_button2: sensor.oc1_bom_nuoc_energy_daily
+  custom_button2_icon: mdi:counter
+  custom_button3: sensor.oc1_bom_nuoc_energy_monthly
+  custom_button3_icon: mdi:counter
+  custom_button_temperature: sensor.bon_nuoc_sinh_hoat_son_ha_esp_temperature
+  custom_button_rssi: sensor.bon_nuoc_sinh_hoat_son_ha_rssi
+  background_color1: rgba(80, 69, 69, 0.8)
+  hoat_canh_icon: |-
+    @keyframes shutter-in-left {
+      0% {
+        transform:rotateY(100deg);
+        transform-origin:left;
+        opacity:0;
+      }
+      100% {
+        transform:rotateY(0);
+        transform-origin:left;
+        opacity:1;
+      }
+    }
+    @keyframes shake-top {
+      0% {
+        transform:rotate(0deg);
+        transform-origin:50% 0;
+      }
+      10% {
+        transform:rotate(2deg);
+      }
+      20% {
+        transform:rotate(-6deg);
+      }
+      30% {
+        transform:rotate(6deg);
+      }
+      40% {
+        transform:rotate(-6deg);
+      }
+      40% {
+        transform:rotate(6deg);
+      }
+      60% {
+        transform:rotate(-6deg);
+      }
+      70% {
+        transform:rotate(6deg);
+      }
+      80% {
+        transform:rotate(-2deg);
+      }
+      90% {
+        transform:rotate(2deg);
+      }
+      100% {
+        transform:rotate(0deg);
+        transform-origin:50% 0;
+      }
+    }
+extra_styles: |-
+  @keyframes water_pump_on {
+    0%, 100% {
+      clip-path: inset(0 0 0 0);
+    }
+    50% { 
+      clip-path: polygon(27% 30%, 39% 30%, 38% 12%, 23% 12%, 0 11%, 3.8% 90%, 3.8% 95.5%, 5.75% 95.5%, 5.75% 89%, 0 88%, 0% 1%, 26% 0, 100% 0%, 100% 100%, 0 100%, 0 0, 30% 0);
+    }
+  }
+  @keyframes water_pump_off {
+    0%, 100% {
+      clip-path: polygon(0% 0%, 0 100%, 25% 100%, 26% 12%, 40% 12%, 40% 30%, 25% 30%, 25% 100%, 100% 100%, 100% 0%);
+    }
+  }
+name: Bồn Nước Sơn Hà
+show_icon: false
+show_name: false
+show_state: false
+show_last_changed: false
+entity: '[[[ return variables.main_entity; ]]]'
+icon: '[[[ return variables.main_icon; ]]]'
+show_entity_picture: true
+entity_picture: '[[[ return variables.main_image; ]]]'
+styles:
+  card:
+    - height: |-
+        [[[
+          return Math.floor(variables.main_icon_width+15)+'px';
+        ]]]
+    - color: white
+    - padding: 10px 0px 10px 0px
+    - margin: 0px 0px 0px 0px
+    - align-self: center
+    - justify-self: center
+    - text-align: center
+    - background: '[[[ return variables.background_color1; ]]]'
+    - border-radius: 0%
+    - '--mdc-ripple-color': rgba(180, 69, 69, 0.8)
+    - '--mdc-ripple-press-opacity': 0.2
+  img_cell:
+    - width: '[[[ return variables.main_icon_width+''px''; ]]]'
+    - height: |-
+        [[[
+          return Math.floor(variables.main_icon_width*0.8)+'px';
+        ]]]
+    - align-items: end
+    - justify-self: center
+    - padding: 0px 0px 0px 0px
+    - margin: 15px 0px 0px 0px
+    - border-radius: 0%
+    - background: none
+  icon:
+    - z-index: 1
+    - width: '[[[ return variables.main_icon_width+''px''; ]]]'
+    - height: |-
+        [[[
+          return Math.floor(variables.main_icon_width*0.8)+'px';
+        ]]]
+    - padding: 0px 0px 0px 0px
+    - margin: 0px 0px 0px 0px
+    - border-radius: 0%
+    - animation: |-
+        [[[ if (states['sensor.oc1_bom_nuoc_current'].state > '0.5' )
+            return 'water_pump_on 0.05s ease-out 0s infinite alternate-reverse both';
+          return 'water_pump_off 1s ease-out 0s infinite alternate-reverse both';
+        ]]]
+  grid:
+    - grid-template-areas: '"i" "status"'
+    - grid-template-columns: 1fr
+    - grid-template-rows: min-content min-content
+  custom_fields:
+    temperature:
+      - position: absolute
+      - top: 2%
+      - left: 4%
+      - background: none
+    rssi:
+      - position: absolute
+      - top: 2%
+      - right: 4%
+      - background: none
+    water_level:
+      - position: absolute
+      - bottom: 38.3%
+      - justify-self: center
+      - align-self: end
+      - background: gray
+      - width: |-
+          [[[
+            return Math.floor(variables.main_icon_width*0.7)+'px';
+          ]]]
+      - height: |-
+          [[[
+            return Math.floor(variables.main_icon_width*0.48)+'px';
+          ]]]
+    status:
+      - width: 100%
+      - height: 60px
+      - align-self: start
+      - justify-self: center
+      - background: none
+      - border-top: 1px dashed rgba(255, 255, 255, 0.5)
+tap_action:
+  action: more-info
+hold_action:
+  action: more-info
+custom_fields:
+  water_level: |-
+    [[[
+      var entity_per = entity.state;
+      if (entity.state > 50)
+        entity_per = -Math.floor(entity_per*5);
+      else entity_per = Math.floor(entity_per*5);
+      return `<svg width="100%" height="100%" viewBox="0 0 1000 1000"
+      xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+      overflow="auto" shape-rendering="auto" fill="#ffffff">
+        <defs>
+         <path id="wavepath" d="M 0 2000 0 500 Q 150 461 300 500 t 300 0 300 0 300 0 300 0 300 0  v1000 z" />
+         <path id="motionpath" d="M -516 0 0 0" /> 
+        </defs>
+        <g >
+         <use xlink:href="#wavepath" y="${entity_per}" fill="#29B6F6">
+         <animateMotion
+          dur="3s"
+          repeatCount="indefinite">
+          <mpath xlink:href="#motionpath" />
+         </animateMotion>
+         </use>
+        </g>
+      </svg>`
+    ]]]
+  temperature:
+    card:
+      type: custom:button-card
+      entity: '[[[ return variables.custom_button_temperature; ]]]'
+      layout: icon_state
+      show_state: true
+      show_name: false
+      show_icon: true
+      name: Temperature
+      styles:
+        card:
+          - width: 110px
+          - height: 20px
+          - align-self: center
+          - justify-self: end
+          - border: 0px
+          - border-radius: 0%
+          - background: none
+          - padding: 0px 0px 0px 0px
+          - margin: 0px 0px 0px 0px
+          - '--mdc-ripple-color': rgba(180, 69, 69, 0.8)
+          - '--mdc-ripple-press-opacity': 0.2
+        img_cell:
+          - height: 20px
+          - padding: 0px 0px 0px 0px
+          - margin: 0px 0px 0px 0px
+          - align-items: center
+          - justify-content: start
+        icon:
+          - height: 20px
+          - color: '[[[ return variables.main_icon_color; ]]]'
+          - padding: 0px 0px 0px 0px
+          - margin: 0px 0px 0px 0px
+        state:
+          - font-weight: bold
+          - align-self: end
+          - justify-self: start
+          - font-size: 15px
+          - padding: 0px 0px 0px 0px
+          - margin: 0px 0px 0px -22px
+  rssi:
+    card:
+      type: custom:button-card
+      entity: '[[[ return variables.custom_button_rssi; ]]]'
+      layout: icon_state
+      show_state: true
+      show_name: false
+      show_icon: true
+      icon: mdi:ab-testing
+      name: RSSI
+      styles:
+        card:
+          - width: 110px
+          - height: 20px
+          - align-self: center
+          - justify-self: end
+          - border: 0px
+          - border-radius: 0%
+          - background: none
+          - padding: 0px 0px 0px 0px
+          - margin: 0px 0px 0px 0px
+          - '--mdc-ripple-color': rgba(180, 69, 69, 0.8)
+          - '--mdc-ripple-press-opacity': 0.2
+        img_cell:
+          - height: 20px
+          - padding: 0px 0px 0px 0px
+          - margin: 0px 0px 0px 0px
+          - align-items: center
+          - justify-content: end
+        icon:
+          - height: 20px
+          - color: '[[[ return variables.main_icon_color; ]]]'
+          - padding: 0px 0px 0px 0px
+          - margin: 0px 0px 0px 0px
+        state:
+          - font-weight: bold
+          - align-self: end
+          - justify-self: end
+          - font-size: 15px
+  status:
+    card:
+      type: custom:button-card
+      name: status
+      color_type: label-card
+      show_name: false
+      styles:
+        card:
+          - height: 60px
+          - color: white
+          - border: none
+          - border-radius: 0%
+          - padding: 0px 0px 0px 0px
+          - margin: 0px 0px 0px 0px
+          - align-self: center
+          - justify-self: center
+          - background: none
+        grid:
+          - grid-template-areas: '"button1 button2 button3"'
+          - grid-template-columns: 1fr 1fr 1fr
+          - grid-template-rows: 1fr
+        custom_fields:
+          button1:
+            - width: 100%
+            - border-radius: 0%
+            - align-self: center
+            - justify-self: center
+            - text-align: center
+          button2:
+            - width: 100%
+            - border-radius: 0%
+            - align-self: center
+            - justify-self: center
+            - text-align: center
+          button3:
+            - width: 100%
+            - border-radius: 0%
+            - align-self: center
+            - justify-self: center
+            - text-align: center
+      custom_fields:
+        button1:
+          card:
+            type: custom:button-card
+            entity: '[[[ return variables.custom_button1; ]]]'
+            layout: icon_state
+            icon: '[[[ return variables.custom_button1_icon; ]]]'
+            show_state: true
+            show_name: false
+            show_icon: true
+            name: button1ery
+            extra_styles: '[[[ return variables.hoat_canh_icon; ]]]'
+            styles:
+              card:
+                - align-self: center
+                - justify-self: center
+                - height: 60px
+                - border: 0px
+                - background: none
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+                - '--mdc-ripple-color': rgba(180, 69, 69, 0.8)
+                - '--mdc-ripple-press-opacity': 0.2
+              img_cell:
+                - align-self: center
+                - justify-self: center
+                - text-align: center
+                - height: 60px
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+              icon:
+                - color: '[[[ return variables.main_icon_color; ]]]'
+                - align-self: center
+                - justify-self: center
+                - text-align: center
+                - height: 60px
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+                - animation: shake-top 1s ease-out 0s infinite normal both
+              state:
+                - font-weight: bold
+                - align-self: center
+                - justify-self: start
+                - font-size: 14px
+        button2:
+          card:
+            type: custom:button-card
+            entity: '[[[ return variables.custom_button2; ]]]'
+            layout: icon_state
+            icon: '[[[ return variables.custom_button2_icon; ]]]'
+            show_state: true
+            show_name: false
+            show_icon: true
+            name: button1ery
+            extra_styles: '[[[ return variables.hoat_canh_icon; ]]]'
+            styles:
+              card:
+                - align-self: center
+                - justify-self: center
+                - height: 60px
+                - border: 0px
+                - background: transparent
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+                - '--mdc-ripple-color': rgba(180, 69, 69, 0.8)
+                - '--mdc-ripple-press-opacity': 0.2
+              img_cell:
+                - align-self: center
+                - justify-self: center
+                - text-align: center
+                - height: 60px
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+              icon:
+                - color: '[[[ return variables.main_icon_color; ]]]'
+                - align-self: center
+                - justify-self: center
+                - text-align: center
+                - height: 60px
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+                - animation: shake-top 1s ease-out 0s infinite normal both
+              state:
+                - font-weight: bold
+                - align-self: center
+                - justify-self: start
+                - font-size: 14px
+        button3:
+          card:
+            type: custom:button-card
+            entity: '[[[ return variables.custom_button3; ]]]'
+            layout: icon_state
+            icon: '[[[ return variables.custom_button3_icon; ]]]'
+            show_state: true
+            show_name: false
+            show_icon: true
+            name: button1ery
+            extra_styles: '[[[ return variables.hoat_canh_icon; ]]]'
+            styles:
+              card:
+                - align-self: center
+                - justify-self: center
+                - height: 60px
+                - border: 0px
+                - background: transparent
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+                - '--mdc-ripple-color': rgba(180, 69, 69, 0.8)
+                - '--mdc-ripple-press-opacity': 0.2
+              img_cell:
+                - align-self: center
+                - justify-self: center
+                - height: 60px
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+              icon:
+                - color: '[[[ return variables.main_icon_color; ]]]'
+                - align-self: center
+                - justify-self: center
+                - height: 60px
+                - padding: 0px 0px 0px 0px
+                - margin: 0px 0px 0px 0px
+                - animation: shake-top 1s ease-out 0s infinite alternate-reverse both
+              state:
+                - font-weight: bold
+                - align-self: center
+                - justify-self: start
+                - font-size: 14px
+layout_options:
+  grid_columns: 4
